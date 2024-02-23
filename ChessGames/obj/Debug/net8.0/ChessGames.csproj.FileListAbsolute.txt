@@ -1,0 +1,14 @@
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\bin\Debug\net8.0\ChessGames.exe
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\bin\Debug\net8.0\ChessGames.deps.json
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\bin\Debug\net8.0\ChessGames.runtimeconfig.json
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\bin\Debug\net8.0\ChessGames.dll
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\bin\Debug\net8.0\ChessGames.pdb
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.AssemblyInfoInputs.cache
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.AssemblyInfo.cs
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.csproj.CoreCompileInputs.cache
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.dll
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\refint\ChessGames.dll
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.pdb
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.genruntimeconfig.cache
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ref\ChessGames.dll
