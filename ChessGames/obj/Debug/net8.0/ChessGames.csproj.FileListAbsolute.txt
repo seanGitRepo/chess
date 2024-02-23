@@ -12,3 +12,4 @@ C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\refint
 C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.pdb
 C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.genruntimeconfig.cache
 C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ref\ChessGames.dll
+C:\Users\seans\Desktop\tafe\coding\ChessGames\ChessGames\obj\Debug\net8.0\ChessGames.sourcelink.json

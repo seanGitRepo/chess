@@ -14,7 +14,7 @@ namespace ChessGames
             public int Number { get; set; }
             public char Letter { get; set; }
 
-            public Piece piece{  get; set; }
+            public Piece piece{get; set; }
 
 
         public override string ToString()
