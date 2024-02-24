@@ -386,7 +386,7 @@ namespace ChessGames
 
             for (int i = 1; i < 5; i++)
             {
-                string fp = $"C:/Users/seans/Desktop/tafe/coding/ChessGames/ChessGames/GameSaves/{i}.pgn";
+                string fp = $"C:/Users/seans/Desktop/tafe/coding/ChessGames/GameSaves/{i}.pgn";
 
                 StreamReader line = new StreamReader(fp);
                 string currentLine = line.ReadLine();
