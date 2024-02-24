@@ -13,79 +13,23 @@ board.initialisePieces();
 board.boardVisual();
 
 
-var pieceToMove = board.FindWPieceByCode("p1");
-var newSquare = board.FindSquareByCode("C5");
-
-
-string[] userInSpit;
-string userIn = "a";
-string piece;
-string location;
-
-while (userIn != "restart")
+while (true)
 {
-    int turn = board.turn % 2;
-    if (turn == 0) // test for even and odd: https://csharp-station.com/how-to-test-for-even-or-odd-numbers-in-c/
-    {
-        Console.WriteLine("White to move");
-        Console.WriteLine("Please select a piece and location");
-        Console.WriteLine("Example: p1.a5");
-
-        userIn = Console.ReadLine();
-
-        if(userIn == "restart")
-        {
-            break;
-        }
-
-        userInSpit = userIn.Split('.');
-
-        piece = userInSpit[0];
-        location = userInSpit[1];
-        pieceToMove = board.FindWPieceByCode(piece);
-        var oldSpot = pieceToMove.CurrentSquare;
-        newSquare = board.FindSquareByCode(location);
-        
-        pieceToMove.CurrentSquare = newSquare;
-        newSquare.piece = pieceToMove;
-        oldSpot.piece = null;
-
-
-
-
-    }
-    else
-    {
-        Console.WriteLine("Black to move");
-        Console.WriteLine("Please select a piece and location");
-        Console.WriteLine("Example: p1.a5");
-
-        userIn = Console.ReadLine();
-
-        if (userIn == "restart")
-        {
-            break;
-        }
-
-        userInSpit = userIn.Split('.');
-        piece = userInSpit[0];
-        location = userInSpit[1];
-        pieceToMove = board.FindBPieceByCode(piece);
-        var oldSpot = pieceToMove.CurrentSquare;
-        newSquare = board.FindSquareByCode(location);
-
-        pieceToMove.CurrentSquare = newSquare;
-        newSquare.piece = pieceToMove;
-        oldSpot.piece = null;
-
-
-    }
+    board.move();
 
     Console.Clear();
+
     board.boardVisual();
 
 }
 
 
 
+
+
+
+//TODO: Validator - yes, can only move to real squares.
+//TODO: what happens when a pawn gets to the end of the board
+//TODO: instructions on commands
+//TODO: connect database of previous games.
 

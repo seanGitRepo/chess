@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ChessGames
@@ -29,7 +30,7 @@ namespace ChessGames
                     displaySquare(square);
                     square++ ;
 
-                     }
+                }
             
                 Console.Write("\n");
             }
@@ -42,17 +43,22 @@ namespace ChessGames
             if (this.SquareList[currentSquare].piece == null)
             {
 
-                Console.Write($" |    |"); // this is for empty strings
+                Console.Write($"     |"); // this is for empty strings
             } else
             {
 
                 if (this.SquareList[currentSquare].piece.Name == "Q"|| this.SquareList[currentSquare].piece.Name == "K")
                 {
-                    Console.Write($" |  {this.SquareList[currentSquare].piece.Name} |");
+
+                    string c = this.SquareList[currentSquare].piece.Colour;
+
+
+                    Console.Write($" {c[0]}{this.SquareList[currentSquare].piece.Name}  |");
                 }
                 else
                 {
-                    Console.Write($" | {this.SquareList[currentSquare].piece.Name} |");
+                    string c = this.SquareList[currentSquare].piece.Colour;
+                    Console.Write($" {c[0]}{this.SquareList[currentSquare].piece.Name} |");
                 }
            
 
@@ -60,10 +66,6 @@ namespace ChessGames
 
 
         }
-
-
-
-
 
        public List<Square> SquareList { get; } = new();
 
@@ -165,7 +167,6 @@ namespace ChessGames
             
 
 
-
         }
         //stolen straight from Peter, no idea how to do this one.
         public Piece FindBPieceByCode(string code) => piecesBlack.FirstOrDefault(s => s.ToString() == code);
@@ -192,14 +193,111 @@ namespace ChessGames
             return hero;
         }
 
+        public void move()
+        {
+
+            string[] userInSpit;
+            string userIn = "a";
+            string piece;
+            string location;
+
+            var x = true;
+            while (x)
+            {
+                if (turn % 2 == 0)
+                {
+                    Console.WriteLine("White to move");
+                }
+                else
+                {
+                    Console.WriteLine("Black to move");
+                }
+
+
+               
+                Console.WriteLine("Please select a piece and location");
+                Console.WriteLine("Example: p1.a5");
+
+                userIn = Console.ReadLine();
+                if (userIn == "exit")
+                {
+                    Environment.Exit(0);
+                }
+                userInSpit = userIn.Split('.');
+                if (turn%2 == 0)
+                {
+                    if (this.FindWPieceByCode(userInSpit[0]) == null || this.FindSquareByCode(userInSpit[1]) == null)
+                    {
+
+                        x = true;
+                        Console.WriteLine("Not a valid piece or location");
+                    }
+                    else
+                    {
+                        x = false;
+                    }
+                }
+                else
+                {
+                    if (this.FindBPieceByCode(userInSpit[0]) == null || this.FindSquareByCode(userInSpit[1]) == null)
+                    {
+
+                        x = true;
+                        Console.WriteLine("Not a valid piece or location");
+                    }
+                    else
+                    {
+                        x = false;
+                    }
+                }
+                
+            }
+
+           
+
+
+
+            userInSpit = userIn.Split('.');
+            piece = userInSpit[0];
+            location = userInSpit[1];
+
+            if (turn % 2 == 0)
+            {
+                var pieceToMove = this.FindWPieceByCode(piece);
+                var oldSpot = pieceToMove.CurrentSquare;
+                var newSquare = this.FindSquareByCode(location);
+
+                this.pieceTake(pieceToMove, oldSpot, newSquare);
+            }
+            else
+            {
+                var pieceToMove = this.FindBPieceByCode(piece);
+                var oldSpot = pieceToMove.CurrentSquare;
+                var newSquare = this.FindSquareByCode(location);
+
+                this.pieceTake(pieceToMove, oldSpot, newSquare);
+            }
+
+ 
+        }
 
 
         public void topline()
         {
 
-            for (int a = 0; a < 58; a++)
+            for (int a = 0; a < 50; a++)
             {
-                Console.Write("-");
+
+                if (a < 3)
+                {
+                    Console.Write(" ");
+
+                }
+                else
+                {
+
+                    Console.Write("-");
+                }
 
             }
             Console.Write("\n");
@@ -214,7 +312,8 @@ namespace ChessGames
             // 1 and i want 7
             y = y + (-8);
             y = -y;
-            Console.Write(y);
+            Console.Write($"{y} |");
+
 
 
         }
@@ -228,9 +327,52 @@ namespace ChessGames
                 i = i + 65;
                 char letter = (char)i;
                 i = i - 65;
-                Console.Write($"     {letter} ");
+                Console.Write($"     {letter}");
             }
             Console.Write("\n");
+        }
+
+
+
+        public void pieceTake(Piece pieceToMove, Square oldSpot, Square NewSquare)
+        {
+            //I need to do two things here, is this an acceptable move for this piece ?
+
+            //Is there a 
+
+            var enemyPiece = NewSquare.piece;
+
+
+            if (enemyPiece == null)
+            {
+                
+            }
+            else { 
+
+                if (enemyPiece.Colour == "black") //validate turn 
+                {
+                    Console.WriteLine($"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}");
+
+                    piecesBlack.Remove(enemyPiece);
+
+                }
+                else if (enemyPiece.Colour == "white")
+                {
+                    Console.WriteLine($"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}");
+
+                    piecesWhite.Remove(enemyPiece);
+
+
+                }
+
+            }
+
+
+
+            pieceToMove.CurrentSquare = NewSquare;
+            NewSquare.piece = pieceToMove;
+            oldSpot.piece = null;
+
         }
     }
 

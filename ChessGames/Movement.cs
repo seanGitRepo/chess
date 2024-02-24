@@ -12,10 +12,9 @@ namespace ChessGames
         public Square newSquare { get; set;}
         public Piece currentPiece { get; set; }
          
-
+     
     }
-            //I need to change the list of letters an overide maybe of 
-
+    //I need to change the list of letters an overide maybe of 
 }
 
 

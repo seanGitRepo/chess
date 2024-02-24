@@ -24,13 +24,6 @@ namespace ChessGames
             return $"{Name}";
         }
 
-
-
-    } 
-
-
-
-
-
+    }
 
 }
