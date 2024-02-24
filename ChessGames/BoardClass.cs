@@ -13,25 +13,25 @@ namespace ChessGames
     public class BoardClass
     {
         public int turn = -1;
-      
+
         public void boardVisual()
         {
             int square = 0;
             letterRow();
-            
+
             for (int i = 0; i < 8; i++)
             {
-             topline();
-                numberrow(i);   
-                
+                topline();
+                numberrow(i);
+
                 for (int j = 0; j < 8; j++)
                 {
 
                     displaySquare(square);
-                    square++ ;
+                    square++;
 
                 }
-            
+
                 Console.Write("\n");
             }
             topline();
@@ -44,10 +44,11 @@ namespace ChessGames
             {
 
                 Console.Write($"     |"); // this is for empty strings
-            } else
+            }
+            else
             {
 
-                if (this.SquareList[currentSquare].piece.Name == "Q"|| this.SquareList[currentSquare].piece.Name == "K")
+                if (this.SquareList[currentSquare].piece.Name == "Q" || this.SquareList[currentSquare].piece.Name == "K")
                 {
 
                     string c = this.SquareList[currentSquare].piece.Colour;
@@ -60,14 +61,14 @@ namespace ChessGames
                     string c = this.SquareList[currentSquare].piece.Colour;
                     Console.Write($" {c[0]}{this.SquareList[currentSquare].piece.Name} |");
                 }
-           
+
 
             }
 
 
         }
 
-       public List<Square> SquareList { get; } = new();
+        public List<Square> SquareList { get; } = new();
 
         public Square squareCreation(int number, char letter)
         {
@@ -84,17 +85,19 @@ namespace ChessGames
 
 
 
-        public Piece PieceGenerator(string name, string colour,Square currentSquare)
+        public Piece PieceGenerator(string name, string colour, Square currentSquare)
         {
 
             var piece = new Piece { Name = name, Colour = colour, CurrentSquare = currentSquare };
 
-            if(colour == "black")
+            if (colour == "black")
             {
                 piecesBlack.Add(piece);
                 currentSquare.piece = piece;
 
-            }else if(colour == "white"){
+            }
+            else if (colour == "white")
+            {
 
                 piecesWhite.Add(piece);
                 currentSquare.piece = piece;
@@ -119,12 +122,12 @@ namespace ChessGames
                     //needs to start at 7 
 
                     this.squareCreation(j, (char)modLetter);
-                   
+
 
 
                 }
             }
-            
+
 
 
         }
@@ -138,7 +141,7 @@ namespace ChessGames
                 PieceGenerator($"p{i + 1}", "white", SquareList[i + 48]);
             }
 
-           
+
             PieceGenerator($"r1", "black", SquareList[0]);
             PieceGenerator($"r2", "black", SquareList[7]);
 
@@ -157,21 +160,21 @@ namespace ChessGames
             PieceGenerator($"b1", "white", SquareList[58]);
             PieceGenerator($"b2", "white", SquareList[61]);
 
-           
 
-            PieceGenerator($"Q", "black",SquareList[3]);
+
+            PieceGenerator($"Q", "black", SquareList[3]);
             PieceGenerator($"Q", "white", SquareList[59]);
 
-            PieceGenerator($"K", "black",SquareList[4]);
+            PieceGenerator($"K", "black", SquareList[4]);
             PieceGenerator($"K", "white", SquareList[60]);
-            
+
 
 
         }
         //stolen straight from Peter, no idea how to do this one.
         public Piece FindBPieceByCode(string code) => piecesBlack.FirstOrDefault(s => s.ToString() == code);
         public Piece FindWPieceByCode(string code) => piecesWhite.FirstOrDefault(s => s.ToString() == code);
-    
+
         public Square FindSquareByCode(string code)
         {
 
@@ -193,38 +196,17 @@ namespace ChessGames
             return hero;
         }
 
-        public void move()
+        public void move(string userIn)
         {
-
             string[] userInSpit;
-            string userIn = "a";
             string piece;
             string location;
-
             var x = true;
             while (x)
             {
-                if (turn % 2 == 0)
-                {
-                    Console.WriteLine("White to move");
-                }
-                else
-                {
-                    Console.WriteLine("Black to move");
-                }
 
-
-               
-                Console.WriteLine("Please select a piece and location");
-                Console.WriteLine("Example: p1.a5");
-
-                userIn = Console.ReadLine();
-                if (userIn == "exit")
-                {
-                    Environment.Exit(0);
-                }
                 userInSpit = userIn.Split('.');
-                if (turn%2 == 0)
+                if (turn % 2 == 0)
                 {
                     if (this.FindWPieceByCode(userInSpit[0]) == null || this.FindSquareByCode(userInSpit[1]) == null)
                     {
@@ -250,12 +232,8 @@ namespace ChessGames
                         x = false;
                     }
                 }
-                
+
             }
-
-           
-
-
 
             userInSpit = userIn.Split('.');
             piece = userInSpit[0];
@@ -278,7 +256,7 @@ namespace ChessGames
                 this.pieceTake(pieceToMove, oldSpot, newSquare);
             }
 
- 
+
         }
 
 
@@ -345,21 +323,27 @@ namespace ChessGames
 
             if (enemyPiece == null)
             {
-                
+                Thread.Sleep(500);
+                lastmove = "";
             }
-            else { 
+            else
+            {
 
                 if (enemyPiece.Colour == "black") //validate turn 
                 {
-                    Console.WriteLine($"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}");
+                    lastmove = $"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}";
 
+                    Console.WriteLine(lastmove);
+                    Thread.Sleep(500);
                     piecesBlack.Remove(enemyPiece);
 
                 }
                 else if (enemyPiece.Colour == "white")
                 {
-                    Console.WriteLine($"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}");
+                    lastmove = $"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}";
 
+                    Console.WriteLine(lastmove);
+                    Thread.Sleep(500);
                     piecesWhite.Remove(enemyPiece);
 
 
@@ -374,10 +358,143 @@ namespace ChessGames
             oldSpot.piece = null;
 
         }
+
+        public string lastmove;
+
+
+        public List<Game> GameDownload { get; } = new();
+
+
+        public Game addGames(string moves, string gameName, int ID)
+        {
+            var Game = new Game { Moves = moves, GameName = gameName, Id = ID };
+            GameDownload.Add(Game);
+            return Game;
+        }
+
+        public void autoGameRunner(Game toRUN)
+        {
+
+
+
+
+
+        }
+
+        public void dataAdd()
+        {
+
+            for (int i = 1; i < 5; i++)
+            {
+                string fp = $"C:/Users/seans/Desktop/tafe/coding/ChessGames/ChessGames/GameSaves/{i}.pgn";
+
+                StreamReader line = new StreamReader(fp);
+                string currentLine = line.ReadLine();
+                string strGame = "";
+                while (currentLine != null)
+                {
+
+                    strGame += currentLine;
+
+                    currentLine = line.ReadLine();
+                }
+
+                string[] infoGameSplit = strGame.Split("]1");
+
+                infoGameSplit[0] = infoGameSplit[0] + "]";// this is all the information in the game.
+                infoGameSplit[1] = "1" + infoGameSplit[1];// this is the game.
+
+
+                int flip = 0;
+                string str = infoGameSplit[1];
+
+                List<string> whiteMoves = new List<string>();
+                List<string> blackMoves = new List<string>();
+
+
+                string[] split = str.Split("{");
+                whiteMoves.Add(split[0]);
+
+                for (int x = 0; x < split.Length; x++)
+                {
+                    string[] temp = split[x].Split("} ");
+
+                    if (flip % 2 == 0 && flip != 0)
+                    {
+                        try
+                        {
+                            whiteMoves.Add(temp[1]);
+
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+
+                            break;
+                        }
+
+                    }
+                    else if (flip % 2 == 1)
+                    {
+                        try
+                        {
+                            blackMoves.Add(temp[1]);
+
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+
+                            break;
+                        }
+                    }
+                    else { }
+                    flip++;
+                }
+
+
+                for (int j = 0; j < whiteMoves.Count; j++)
+                {
+                    whiteMoves[j] = whiteMoves[j].Substring(whiteMoves[j].IndexOf('.') + 1).Trim();
+                }
+                for (int j = 0; j < blackMoves.Count; j++)
+                {
+
+                    int index = blackMoves[j].IndexOf("...") + 3;
+
+                    blackMoves[j] = blackMoves[j].Substring(index + 1).Trim(); //reminder from chat gpt on how to find the correct index, then use it to trim a string.
+                }
+                    foreach (string a in whiteMoves)
+                    {
+
+                        Console.WriteLine(a);
+                    }
+                Console.WriteLine();
+                    foreach (string a in blackMoves)
+                    {
+
+                        Console.WriteLine(a);
+                    }
+
+                    Console.ReadLine();
+
+                    //I need to use the info from infoGameSplit then translate it into what my code requires to run..
+
+                    // ex 4. d4 {[%clk 0:02:56]} 3... Bg7 {[%clk 0:02:53]}: White moves the pawn to d4, and Black develops the bishop to g7.
+                    // we could split the string into 
+
+
+
+
+                }
+
+
+
+            }
+
+
+        }
+
+
     }
-
-
-}
 
 
 //so there are 64 squares 
