@@ -4,22 +4,20 @@ using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 
 
-BoardClass board = new BoardClass();
+var board = new Board();
 
-board.dataAdd();
-board.initialiseSquare();
-board.initialisePieces();
+//infer with var
 
-board.boardVisual();
+board.Initialise(seed: false) ; //concept responsiblity (single responsibility)
+                                // information expert
+                                //optional named parameteres
+board.Draw();
 
 
 while (true)
 {
 
-    
     string userIn = "a";
-
-
 
     if (board.lastmove != null || board.lastmove == "")
     {
@@ -68,13 +66,23 @@ while (true)
 
     Console.Clear();
 
-    board.boardVisual();
+    board.Draw();
 
 }
 
-
+//Board:
 //TODO: Validator - yes, can only move to real squares.
-//TODO: what happens when a pawn gets to the end of the board
 //TODO: instructions on commands
-//TODO: connect database of previous games.
 //TODO: add winning scree
+
+//Data:
+//TODO: connect database of previous games. The games now load into the program, have to shift them to the database then into the game. 
+//TODO: Turn the data into a readable langauge for program to run
+
+//For Moves:
+//TODO: King Swap
+//TODO: what happens when a pawn gets to the end of the board
+
+
+//Bugs:
+//userinput = null or enter forever loop ? - resolved 

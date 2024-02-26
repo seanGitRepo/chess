@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -10,12 +11,14 @@ using System.Threading.Tasks;
 
 namespace ChessGames
 {
-    public class BoardClass
+    public class Board
     {
         public int turn = -1;
 
-        public void boardVisual()
+        public void Draw()
         {
+
+           
             int square = 0;
             letterRow();
 
@@ -108,7 +111,20 @@ namespace ChessGames
 
         }
 
-        public void initialiseSquare()
+        public void Initialise(bool seed = false)
+        {
+           
+            InitialiseSquares();
+            InitialisePieces();
+
+            if (seed)
+            {
+                SeedData();
+            }
+
+        }
+
+        public void InitialiseSquares()
         {
 
             for (int j = 8; j > 0; j--)
@@ -132,7 +148,7 @@ namespace ChessGames
 
         }
 
-        public void initialisePieces()
+        public void InitialisePieces()
         {
 
             for (int i = 0; i < 8; i++)
@@ -204,7 +220,7 @@ namespace ChessGames
             var x = true;
             while (x)
             {
-
+            
                 userInSpit = userIn.Split('.');
                 if (turn % 2 == 0)
                 {
@@ -213,6 +229,7 @@ namespace ChessGames
 
                         x = true;
                         Console.WriteLine("Not a valid piece or location");
+                        userIn = Console.ReadLine();
                     }
                     else
                     {
@@ -226,6 +243,7 @@ namespace ChessGames
 
                         x = true;
                         Console.WriteLine("Not a valid piece or location");
+                        userIn = Console.ReadLine();
                     }
                     else
                     {
@@ -323,7 +341,7 @@ namespace ChessGames
 
             if (enemyPiece == null)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(250);
                 lastmove = "";
             }
             else
@@ -334,7 +352,7 @@ namespace ChessGames
                     lastmove = $"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}";
 
                     Console.WriteLine(lastmove);
-                    Thread.Sleep(500);
+                    Thread.Sleep(250);
                     piecesBlack.Remove(enemyPiece);
 
                 }
@@ -343,7 +361,7 @@ namespace ChessGames
                     lastmove = $"{pieceToMove.Name}-{pieceToMove.Colour} takes {enemyPiece.Name}-{enemyPiece.Colour}";
 
                     Console.WriteLine(lastmove);
-                    Thread.Sleep(500);
+                    Thread.Sleep(250);
                     piecesWhite.Remove(enemyPiece);
 
 
@@ -381,114 +399,152 @@ namespace ChessGames
 
         }
 
-        public void dataAdd()
+        public List<string> whiteMoves = new List<string>();
+      public List<string> blackMoves = new List<string>();
+
+        public void SeedData()
         {
 
-            for (int i = 1; i < 5; i++)
-            {
-                string fp = $"C:/Users/seans/Desktop/tafe/coding/ChessGames/GameSaves/{i}.pgn";
+        
 
-                StreamReader line = new StreamReader(fp);
-                string currentLine = line.ReadLine();
-                string strGame = "";
-                while (currentLine != null)
-                {
+            //for (int i = 1; i < 2; i++)
+            //{
+            //    string fp = $"C:/Users/seans/Desktop/tafe/coding/ChessGames/GameSaves/{i}.pgn";
 
-                    strGame += currentLine;
+            //    StreamReader line = new StreamReader(fp);
+            //    string currentLine = line.ReadLine();
+            //    string strGame = "";
+            //    while (currentLine != null)
+            //    {
 
-                    currentLine = line.ReadLine();
-                }
+            //        strGame += currentLine;
 
-                string[] infoGameSplit = strGame.Split("]1");
+            //        currentLine = line.ReadLine();
+            //    }
 
-                infoGameSplit[0] = infoGameSplit[0] + "]";// this is all the information in the game.
-                infoGameSplit[1] = "1" + infoGameSplit[1];// this is the game.
+            //    string[] infoGameSplit = strGame.Split("]1");
 
-
-                int flip = 0;
-                string str = infoGameSplit[1];
-
-                List<string> whiteMoves = new List<string>();
-                List<string> blackMoves = new List<string>();
+            //    infoGameSplit[0] = infoGameSplit[0] + "]";// this is all the information in the game.
+            //    infoGameSplit[1] = "1" + infoGameSplit[1];// this is the game.
 
 
-                string[] split = str.Split("{");
-                whiteMoves.Add(split[0]);
+            //    int flip = 0;
+            //    string str = infoGameSplit[1];
 
-                for (int x = 0; x < split.Length; x++)
-                {
-                    string[] temp = split[x].Split("} ");
-
-                    if (flip % 2 == 0 && flip != 0)
-                    {
-                        try
-                        {
-                            whiteMoves.Add(temp[1]);
-
-                        }
-                        catch (IndexOutOfRangeException)
-                        {
-
-                            break;
-                        }
-
-                    }
-                    else if (flip % 2 == 1)
-                    {
-                        try
-                        {
-                            blackMoves.Add(temp[1]);
-
-                        }
-                        catch (IndexOutOfRangeException)
-                        {
-
-                            break;
-                        }
-                    }
-                    else { }
-                    flip++;
-                }
+                
 
 
-                for (int j = 0; j < whiteMoves.Count; j++)
-                {
-                    whiteMoves[j] = whiteMoves[j].Substring(whiteMoves[j].IndexOf('.') + 1).Trim();
-                }
-                for (int j = 0; j < blackMoves.Count; j++)
-                {
+            //    string[] split = str.Split("{");
+            //    whiteMoves.Add(split[0]);
 
-                    int index = blackMoves[j].IndexOf("...") + 3;
+            //    for (int x = 0; x < split.Length; x++)
+            //    {
+            //        string[] temp = split[x].Split("} ");
 
-                    blackMoves[j] = blackMoves[j].Substring(index + 1).Trim(); //reminder from chat gpt on how to find the correct index, then use it to trim a string.
-                }
-                    foreach (string a in whiteMoves)
-                    {
+            //        if (flip % 2 == 0 && flip != 0)
+            //        {
+            //            try
+            //            {
+            //                whiteMoves.Add(temp[1]);
 
-                        Console.WriteLine(a);
-                    }
-                Console.WriteLine();
-                    foreach (string a in blackMoves)
-                    {
+            //            }
+            //            catch (IndexOutOfRangeException)
+            //            {
 
-                        Console.WriteLine(a);
-                    }
+            //                break;
+            //            }
 
-                    Console.ReadLine();
+            //        }
+            //        else if (flip % 2 == 1)
+            //        {
+            //            try
+            //            {
+            //                blackMoves.Add(temp[1]);
 
-                    //I need to use the info from infoGameSplit then translate it into what my code requires to run..
+            //            }
+            //            catch (IndexOutOfRangeException)
+            //            {
 
-                    // ex 4. d4 {[%clk 0:02:56]} 3... Bg7 {[%clk 0:02:53]}: White moves the pawn to d4, and Black develops the bishop to g7.
-                    // we could split the string into 
+            //                break;
+            //            }
+            //        }
+            //        else { }
+            //        flip++;
+            //    }
+
+
+            //    for (int j = 0; j < whiteMoves.Count; j++)
+            //    {
+            //        int index = whiteMoves[j].IndexOf('.') +1 ;
+                   
+            //       whiteMoves[j] = whiteMoves[j].Substring(whiteMoves[j].IndexOf('.') + 1).Trim();
+
+                   
+            //    }
+            //    for (int j = 0; j < blackMoves.Count - 1; j++)
+            //    {
+               
+
+            //            int index = blackMoves[j].IndexOf("...") + 3;
+
+            //            if (index ==2)
+            //            {
+
+            //            }
+            //            else
+            //            {
+            //                blackMoves[j] = blackMoves[j].Substring(index + 1).Trim(); //reminder from chat gpt on how to find the correct index, then use it to trim a string.
+
+            //            }
+
+            //    }
+
+
+            
+            //    for (int translation = 0; translation < whiteMoves.Count; translation++)
+            //    {
+            //        char[] move = whiteMoves[translation].ToCharArray();
+
+
+            //        for (int letter = 0; letter < 8; letter++)
+            //        {
+
+            //            if (move[0].ToString() == $"{(char)(letter + 97)}")
+            //            {//succesfully knows all of these are all the pawn moves in the game.
+                              
+            //               Square pawnMove = FindSquareByCode($"{(char)(move[0]-32)}{move[1]}");
+
+            //                if (pawnMove.piece != null)
+            //                {
+            //                   // Console.WriteLine(pawnMove.piece.Name);
+            //                }
+            //                else
+            //                {
+
+            //                }
+
+            //            }
+
+            //        }
 
 
 
 
-                }
+
+
+            //    }
 
 
 
-            }
+               
+
+            //}
+
+
+            
+
+
+        }
 
 
         }
@@ -497,4 +553,3 @@ namespace ChessGames
     }
 
 
-//so there are 64 squares 
